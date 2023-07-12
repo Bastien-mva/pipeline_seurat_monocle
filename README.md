@@ -19,7 +19,7 @@ To run the script, you must install the following packages:
 - monocle3
 - SeuratWrappers
 
-Once installed, you can run ```r pipeline.R ```
+Once installed, you can run ```Rscript pipeline.R```. Alternatively you can run it in Rstudio.
 
 ## get_citation
 
