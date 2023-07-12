@@ -2,7 +2,7 @@
 
 
 The code for the paper [Cell specialization and coordination in Arabidopsis
-leaves upon pathogenic attack revealed by scRNA-seq](https://www.biorxiv.org/content/10.1101/2023.03.02.530814v1){:target="_blank"}. The data is available
+leaves upon pathogenic attack revealed by scRNA-seq](https://www.biorxiv.org/content/10.1101/2023.03.02.530814v1). The data is available
 [here](link). You should put the downloaded data inside this respository to run
 the script ```pipeline.R```. Many of the available plots in the paper are taken
 from this script, and all the plots coming from Seurat and Monocle can be
