@@ -26,7 +26,9 @@ You  can then run
 ```
 Rscript pipeline.R
 ```
-Alternatively you can run it in Rstudio. Many of the available plots in the paper are taken
+Alternatively you can run it in Rstudio.
+
+Many of the available plots in the paper are taken
 from this script, and all the plots coming from Seurat and Monocle can be
 derived changing only arguments in the ```pipeline.R``` script (for example changing
 the name of genes for UMAP plots).
