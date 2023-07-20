@@ -18,6 +18,7 @@ To run the script, you must install the following packages:
 - ggpubr
 - monocle3
 - SeuratWrappers
+- ff
 
 Once installed, you can run ```Rscript pipeline.R```. Alternatively you can run it in Rstudio.
 
