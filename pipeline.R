@@ -5,7 +5,8 @@ library(patchwork)
 library(ggpubr)
 library(monocle3)
 library(SeuratWrappers)
-
+library(ff)
+source(file="utils.R")
 
 ## list of cell type markers
 Guard_cell = c('GC-AT5G25980','GC-AT5G48485','GC-AT1G62480','GC-AT3G16400','GC-AT2G15830','GC-AT1G71050','GC-AT2G19810','GC-AT4G37870','GC-AT5G66400','GC-AT3G23730','GC-AT3G24140','GC-AT5G66440','GC-AT3G56620','GC-AT4G37430','GC-AT2G34655','GC-AT2G47260','GC-AT5G42970','GC-AT3G58640','GC-AT1G23170','GC-AT1G29050')
@@ -20,10 +21,13 @@ S_cell = c('SC-AT1G78370','SC-AT3G19710','SC-AT2G30860','SC-AT1G80520','SC-AT2G4
 name_rep = "WT_rep123"
 pdf(paste('plots_', name_rep,'.pdf'), width = 10, height = 10)
 list_reps <- list("rep_1", "rep_2", "rep_3")
+
+
+organize_files_in_folders()
 # import the data
-sc.data_WT_rep1 <- Read10X(data.dir = paste("data", "WT_rep1", sep = '/'))
-sc.data_WT_rep2 <- Read10X(data.dir = paste("data", "WT_rep2", sep = '/'))
-sc.data_WT_rep3 <- Read10X(data.dir = paste("data", "WT_rep3", sep = '/'))
+sc.data_WT_rep1 <- Read10X(data.dir = "WT1")
+sc.data_WT_rep2 <- Read10X(data.dir = "WT2")
+sc.data_WT_rep3 <- Read10X(data.dir = "WT3")
 
 # remember the columns to label each replicate
 col_1 <- colnames(sc.data_WT_rep1)
@@ -32,9 +36,6 @@ col_3 <- colnames(sc.data_WT_rep3)
 
 # Build sc_data as the concatenation of each dataset
 sc.data = Reduce("cbind",list(sc.data_WT_rep1, sc.data_WT_rep2,sc.data_WT_rep3))
-sc.data
-
-
 
 # Create the Seurat Object
 sc_full <- CreateSeuratObject(counts = sc.data, prejct = "scRNA", min.cells = 3, min.features = 200)
@@ -231,46 +232,7 @@ cellsInChosenCluster <- row.names(subset(pData(cds),BoolInChosenCluster))
 sub_cds <- cds[,cellsInChosenCluster]
 
 
-getCiliatedCds <- function(sub_cds){
-  sub_ciliated_cds_pr_test_res <- graph_test(sub_cds, neighbor_graph="principal_graph", cores=1)
-  return(sub_ciliated_cds_pr_test_res)
-}
 
-getAggregatedMatrix <- function(sub_cds, sub_ciliated_cds_pr_test_res, clusterIdOfCellsInChosenCluster, qValueChosen){
-  sub_pr_deg_ids <- row.names(subset(sub_ciliated_cds_pr_test_res, q_value < qValueChosen))
-  print('Number of genes under this p value: ')
-  print(length(sub_pr_deg_ids))
-  sub_gene_module_df <- find_gene_modules(sub_cds[sub_pr_deg_ids,], resolution=0.01)
-  sub_cell_group_df <- tibble::tibble(cell=row.names(colData(sub_cds)),
-                                      cell_group=clusterIdOfCellsInChosenCluster)
-  sub_agg_mat <- aggregate_gene_expression(sub_cds, sub_gene_module_df, sub_cell_group_df)
-  row.names(sub_agg_mat) <- stringr::str_c("Module ", row.names(sub_agg_mat))
-  return(list(sub_gene_module_df, sub_agg_mat))
-}
-
-showAggregatedMat <- function(agg_mat){
-  pheatmap::pheatmap(agg_mat, scale="column", clustering_method="ward.D2")
-}
-
-plotGeneEvolution <- function(cds,gene_module_df, wanted_Modules, label = TRUE){
-  if (label == FALSE){
-  plot_cells(cds,
-             genes=gene_module_df%>% filter(module %in% wanted_Modules),
-             show_trajectory_graph=FALSE,
-             label_cell_groups = FALSE,
-             reduction_method = "UMAP"
-  )
-  }
-  else {
-    plot_cells(cds,
-               genes=gene_module_df%>% filter(module %in% wanted_Modules),
-               show_trajectory_graph=FALSE,
-               label_cell_groups = TRUE,
-               reduction_method = "UMAP"
-    )
-
-  }
-}
 ## Takes a lot of time
 sub_ciliated_cds_pr_test_res <- getCiliatedCds(sub_cds)
 
