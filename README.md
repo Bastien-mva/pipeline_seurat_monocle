@@ -3,7 +3,7 @@
 
 The code for the paper [Cell specialization and coordination in Arabidopsis
 leaves upon pathogenic attack revealed by scRNA-seq](https://www.biorxiv.org/content/10.1101/2023.03.02.530814v1). The data is available
-[here](link).First, you should clone the repo:
+[here](link). First, you should clone the repo:
 ```
 git clone https://github.com/Bastien-mva/pipeline_seurat_monocle.git
 cd pipeline_seurat_monocle
