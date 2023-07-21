@@ -19,7 +19,7 @@ source(file="utils.R")
 
 #name of the output pdf file and output rds file
 name_rep = "WT_rep123"
-pdf(paste('plots_', name_rep,'.pdf'), width = 10, height = 10)
+pdf(paste('plots_', name_rep,'.pdf',sep =""), width = 10, height = 10)
 list_reps <- list("rep_1", "rep_2", "rep_3")
 
 
@@ -60,8 +60,6 @@ sc_full$rep_label <- c(sc_full[['rep_label']])
 
 
 # Doing a SCTransform
-print(sc_full)
-x
 sc_full <- SCTransform(sc_full, vars.to.regress="percent.pt")
 
 # PCA only on the interested features
@@ -347,4 +345,5 @@ plot_genes_by_group(cds,
 
 
 dev.off()
+get_citation(cds)
 
