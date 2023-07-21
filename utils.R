@@ -35,7 +35,7 @@ plotGeneEvolution <- function(cds,gene_module_df, wanted_Modules, label = TRUE){
                label_cell_groups = TRUE,
                reduction_method = "UMAP"
     )
-    
+
   }
 }
 
@@ -44,14 +44,14 @@ organize_files_in_folders <- function(){
   dir.create(file.path(".", "WT1"), showWarnings = FALSE)
   dir.create(file.path(".", "WT2"), showWarnings = FALSE)
   dir.create(file.path(".", "WT3"), showWarnings = FALSE)
-  file.copy("barcodes.tsv.gz", "WT1/")
-  file.copy("barcodes.tsv.gz", "WT2/")
-  file.move("barcodes.tsv.gz", "WT3/barcodes.tsv.gz")
-  
+  file.move("WT1_barcodes.tsv.gz", "WT1/barcodes.tsv.gz")
+  file.move("WT2_barcodes.tsv.gz", "WT2/barcodes.tsv.gz")
+  file.move("WT3_barcodes.tsv.gz", "WT3/barcodes.tsv.gz")
+
   file.copy("features.tsv.gz", "WT1/")
   file.copy("features.tsv.gz", "WT2/")
   file.move("features.tsv.gz", "WT3/features.tsv.gz")
-  
+
   file.move("WT1_matrix.mtx.gz", "WT1/matrix.mtx.gz")
   file.move("WT2_matrix.mtx.gz", "WT2/matrix.mtx.gz")
   file.move("WT3_matrix.mtx.gz", "WT3/matrix.mtx.gz")
