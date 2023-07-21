@@ -84,7 +84,7 @@ sc_full <- FindNeighbors(sc_full,  reduction = 'pca', dims = 1:30)
 sc_full <- FindClusters(sc_full, resolution =1)
 
 
-saveRDS(sc_full, file = paste("sc_full", name_rep, ".rds"))
+saveRDS(sc_full, file = paste("sc_full", name_rep, ".rds", sep = ""))
 
 clusters <- Idents(sc_full)
 
@@ -139,8 +139,6 @@ for (i in 1:nb_clusters){
   bh <-ggplot(abs_df, aes(x=group, y=abs_value))+
     geom_bar(width = 1, stat = "identity" ) +
     geom_text(aes(label=abs_value), vjust = 1,size = 3) + xlab(paste("cluster", as.character(i-1)))
-
-  pie <- bp + coord_polar("y", start=0)
 
   plot_list_hist[[i]] <- bh
 }
