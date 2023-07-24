@@ -207,7 +207,7 @@ get_earliest_principal_node <- function(cds, time_bin="130-170"){
 
 # cds <- order_cells(cds)
 ## Remove the line below if you want to choose the node yourself, and uncomment the line above.
-cds  <- order_cells(cds, root_pr_nodes = get_earliest_principal_node)
+cds  <- order_cells(cds, root_pr_nodes = get_earliest_principal_node(cds))
 
 
 
