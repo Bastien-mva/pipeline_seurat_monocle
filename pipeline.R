@@ -148,20 +148,18 @@ for (i in 1:nb_clusters){
 ggarrange(plotlist = plot_list_hist)
 
 # Cluster repartition
-ggplot(data.frame(clusters), aes(x=as.numeric(clusters)))  +geom_bar(aes(x = clusters), position = "dodge", stat = "count") +
-  stat_bin(aes(y=..count.., label=..count..), geom="text", vjust=-.5, binwidth =1)
+ggplot(data.frame(clusters), aes(x=as.numeric(clusters)))  +geom_bar(aes(x = clusters), position = "dodge", stat = "count")
 
 # Get the markers for each cluster
 sc_full.markers <- FindAllMarkers(sc_full, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
-write.table(sc_full.markers, file=paste("violin_plot", name_rep ,"genes_markers.txt", sep = '/'),sep="\t",quote=FALSE)
+write.table(sc_full.markers, file="gene_markers.txt",sep="\t",quote=FALSE)
 
 dev.off()
 
 
 ###### MONOCLE
 
-setwd("~/")
-rdsFile <- "sc_full WT_rep123.rds"
+rdsFile <- "sc_fullWT_rep123.rds"
 Seurat_obj <- readRDS(file = rdsFile)
 
 
@@ -207,7 +205,11 @@ get_earliest_principal_node <- function(cds, time_bin="130-170"){
   root_pr_nodes
 }
 
-cds  <- order_cells(cds)
+# cds <- order_cells(cds)
+## Remove the line below if you want to choose the node yourself, and uncomment the line above.
+cds  <- order_cells(cds, root_pr_nodes = get_earliest_principal_node)
+
+
 
 # plot the cells by pseudotime
 plot_cells(cds, color_cells_by = 'pseudotime')
@@ -239,9 +241,6 @@ geneModuleAndAggMat <- getAggregatedMatrix(sub_cds, sub_ciliated_cds_pr_test_res
 gene_module_df <- geneModuleAndAggMat[[1]]
 agg_mat <- geneModuleAndAggMat[[2]]
 showAggregatedMat(agg_mat)
-agg_mat
-gene_module_df
-
 dev.off()
 
 ##If you want to select genes and plot their expression levels in the different cells
