@@ -342,5 +342,5 @@ plot_genes_by_group(cds,
 
 
 dev.off()
-get_citation(cds)
+get_citations(cds)
 
